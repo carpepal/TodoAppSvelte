@@ -1,4 +1,4 @@
-import { Board, BoardId } from '$lib/domain/Board';
+import { Board } from '$lib/domain/Board';
 import { UserId } from '$lib/domain/User';
 import type { BoardReadRepository, BoardWriteRepository } from '$lib/repository/Board.repository';
 

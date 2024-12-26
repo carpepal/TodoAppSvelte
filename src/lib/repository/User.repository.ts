@@ -7,8 +7,12 @@ export class UserReadRepository {
 		this.dbcontext = opts.dbcontext;
 	}
 
-	getUserById(id: string) {
-		return this.dbcontext('users').where({ id }).first;
+	async getUserById(id: string) {
+		return this.dbcontext('users').where({ id }).first();
+	}
+
+	async getUserByEmail(email: string) {
+		return this.dbcontext('users').where({ email }).first();
 	}
 }
 

@@ -18,3 +18,16 @@ export async function handle({ event, resolve }) {
 	}
 	return await resolve(event);
 }
+
+export function handleErrors({ error, resolve }) {
+	if (error.status === 401) {
+		return {
+			status: 401,
+			headers: {
+				'content-type': 'application/json'
+			},
+			body: JSON.stringify({ message: 'Unauthorized' })
+		};
+	}
+	return resolve(error);
+}

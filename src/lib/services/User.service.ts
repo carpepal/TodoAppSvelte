@@ -18,6 +18,10 @@ export class UserService {
 		this.boardWriteRepository = opts.BoardWriteRepository;
 	}
 	public async createNewUser(name: string, email: string): Promise<User> {
+		const userExists = await this.userReadRepository.getUserByEmail(email);
+		if (userExists) {
+			error(400, 'User already exists');
+		}
 		const user = User.create(name, email);
 		const board = Board.create('default', 'default', user.id);
 		const a = await this.userWriteRepository.createUser(user);

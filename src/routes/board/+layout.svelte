@@ -12,9 +12,9 @@
 <div class="flex w-full h-full">
     <aside class="flex h-full w-1/5 bg-slate-400 c">
             {#each boards as board}
-                <div class="border-b-2 border-slate-600 w-full h-16 flex justify-center items-center hover:bg-slate-600">
+                <a  href="/board/{board.id}" class="border-b-2 border-slate-600 w-full h-16 flex justify-center items-center hover:bg-slate-600">
                     {board.name}
-                </div>
+                </a>
             {/each}
     </aside>
     <div>{@render children()}</div>

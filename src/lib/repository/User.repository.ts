@@ -22,7 +22,8 @@ export class UserWriteRepository {
 		this.dbcontext = opts.dbcontext;
 	}
 	async createUser(user: User) {
-		return await this.dbcontext('users').insert({
+		const db = this.dbcontext;
+		return await db('users').insert({
 			id: user.id.toString(),
 			name: user.name,
 			email: user.email

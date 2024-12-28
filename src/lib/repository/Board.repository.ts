@@ -18,18 +18,20 @@ export class BoardReadRepository {
 }
 
 export class BoardWriteRepository {
-	private db: Knex;
+	private dbContext: Knex;
 
 	constructor(opts: { dbcontext: Knex }) {
-		this.db = opts.dbcontext;
+		this.dbContext = opts.dbcontext;
 	}
 
 	public async createBoard(board: Board): Promise<void> {
-		const boardDto = board.toDto();
-		await this.db('boards').insert({
-			id: boardDto.id,
+		const db = this.dbContext;
+		const boardDto = board;
+		await db('boards').insert({
+			id: boardDto.id.toString(),
 			name: boardDto.name,
-			description: boardDto.description
+			description: boardDto.description,
+			user_id: boardDto.userId?.toString()
 		});
 	}
 }

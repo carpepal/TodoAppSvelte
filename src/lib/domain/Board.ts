@@ -44,4 +44,21 @@ export class Board {
 			tasks: this._tasks.map((task) => task.toDto())
 		};
 	}
+
+	// getters
+	get id(): BoardId {
+		return this._id;
+	}
+
+	get name(): string {
+		return this._name;
+	}
+
+	get description(): string {
+		return this._description;
+	}
+
+	get userId(): UserId | undefined {
+		return this._userId;
+	}
 }

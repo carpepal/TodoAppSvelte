@@ -19,6 +19,9 @@ export async function handle({ event, resolve }) {
 	return await resolve(event);
 }
 
+//ignore any ts errors
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 export function handleErrors({ error, resolve }) {
 	if (error.status === 401) {
 		return {

@@ -1,6 +1,6 @@
 import container from '$lib/container';
 import { UserService } from '$lib/services/User.service';
-import { error } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 import type { Actions } from './$types';
 
 export const actions = {
@@ -26,10 +26,13 @@ export const actions = {
 			httpOnly: true,
 			maxAge: 3600
 		});
-		return {
-			status: 200,
-			body: { ...user.toDto() }
-		};
+		cookies.set('x-user', user.toDto().id, {
+			path: '/',
+			httpOnly: true,
+			maxAge: 3600
+		});
+
+		redirect(303, '/board');
 	},
 	register: async ({ request }) => {
 		console.log('jajajajaaj register dice');

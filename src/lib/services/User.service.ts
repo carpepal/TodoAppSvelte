@@ -17,6 +17,7 @@ export class UserService {
 		this.userWriteRepository = opts.UserWriteRepository;
 		this.boardWriteRepository = opts.BoardWriteRepository;
 	}
+
 	public async createNewUser(name: string, email: string): Promise<User> {
 		const userExists = await this.userReadRepository.getUserByEmail(email);
 		if (userExists) {

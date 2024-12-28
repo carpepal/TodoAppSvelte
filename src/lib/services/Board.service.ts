@@ -21,4 +21,10 @@ export class BoardService {
 	public async getBoardById(id: string): Promise<Board> {
 		return await this.boardReadRepository.getBoardById(id);
 	}
+
+	public async getBoardByUserId(userId: string): Promise<Board[]> {
+		const boards = await this.boardReadRepository.getBoardByUserId(userId);
+
+		return boards.map((board) => Board.from(board));
+	}
 }

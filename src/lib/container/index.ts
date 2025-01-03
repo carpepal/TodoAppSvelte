@@ -41,7 +41,6 @@ if (ENV === 'development') {
 	container.register({
 		dbcontext: asFunction(
 			({ dbconnection }) => {
-				console.log(dbconnection);
 				return knex({
 					client: 'sqlite3',
 					connection: {

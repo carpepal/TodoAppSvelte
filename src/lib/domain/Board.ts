@@ -1,6 +1,6 @@
 import { EntityId } from './EntityId';
 import type { Task, TaskDto } from './Task';
-import type { UserId } from './User';
+import { UserId } from './User';
 
 export class BoardId extends EntityId {
 	public static create(): BoardId {
@@ -32,8 +32,14 @@ export class Board {
 		return new Board(BoardId.create(), name, description, userId);
 	}
 
-	public static from(boardDto: BoardDto): Board {
-		return new Board(BoardId.from(boardDto.id), boardDto.name, boardDto.description);
+	public static from(boardDto: BoardDto & { user_id?: string }): Board {
+		console.log('from boardDto', boardDto);
+		return new Board(
+			BoardId.from(boardDto.id),
+			boardDto.name,
+			boardDto.description,
+			boardDto.user_id ? UserId.from(boardDto.user_id) : undefined
+		);
 	}
 
 	public toDto(): BoardDto {

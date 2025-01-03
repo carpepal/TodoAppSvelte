@@ -3,9 +3,21 @@ import { UserService } from '$lib/services/User.service';
 import { error, redirect } from '@sveltejs/kit';
 import type { Actions } from './$types';
 
+export const load = async ({ cookies, url }) => {
+	const logout = url.searchParams.get('logout');
+	if (logout !== 'true') {
+		return;
+	}
+	cookies.delete('x-token', {
+		path: '/'
+	});
+	cookies.delete('x-user', {
+		path: '/'
+	});
+};
+
 export const actions = {
 	login: async ({ cookies, request }) => {
-		console.log('jajajajaaj login dice');
 		const userService: UserService = container.resolve('UserService');
 		const data = await request.formData();
 
@@ -16,7 +28,6 @@ export const actions = {
 		}
 
 		const user = await userService.logUser(email as string);
-		console.log('user', user);
 		if (!user) {
 			error(404, 'User not found');
 		}
@@ -32,10 +43,9 @@ export const actions = {
 			maxAge: 3600
 		});
 
-		redirect(303, '/board');
+		redirect(303, '/board/0');
 	},
 	register: async ({ request }) => {
-		console.log('jajajajaaj register dice');
 		const userService: UserService = container.resolve('UserService');
 		const data = await request.formData();
 

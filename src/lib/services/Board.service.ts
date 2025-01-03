@@ -1,4 +1,5 @@
 import { Board } from '$lib/domain/Board';
+import { Task } from '$lib/domain/Task';
 import { UserId } from '$lib/domain/User';
 import type { BoardReadRepository, BoardWriteRepository } from '$lib/repository/Board.repository';
 
@@ -26,5 +27,21 @@ export class BoardService {
 		const boards = await this.boardReadRepository.getBoardByUserId(userId);
 
 		return boards.map((board) => Board.from(board));
+	}
+
+	public async getTasksByBoardId(boardId: string): Promise<Task[]> {
+		const tasks = await this.boardReadRepository.getTasksByBoardId(boardId);
+
+		return tasks.map((task) => Task.from(task));
+	}
+
+	public async getBoardByTaskId(taskId: string): Promise<Board> {
+		const board = await this.boardReadRepository.getBoardByTaskId(taskId);
+
+		return Board.from(board);
+	}
+
+	public async updateTask(taskId: string, task: Task): Promise<void> {
+		await this.boardWriteRepository.updateTask(taskId, task.toDto());
 	}
 }

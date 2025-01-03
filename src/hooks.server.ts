@@ -13,7 +13,11 @@ export async function handle({ event, resolve }) {
 			};
 		}
 	}
-	if (cookies.get('x-token') && url.pathname === '/login') {
+	if (
+		cookies.get('x-token') &&
+		url.pathname === '/login' &&
+		url.searchParams.get('logout') !== 'true'
+	) {
 		throw redirect(303, '/board');
 	}
 	return await resolve(event);

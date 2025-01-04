@@ -31,3 +31,28 @@ export const PATCH: RequestHandler = async ({ params, request, cookies }) => {
 		return new Response(JSON.stringify({ message: 'hubo un error inesperado' }), { status: 500 });
 	}
 };
+
+export const DELETE: RequestHandler = async ({ params, cookies }) => {
+	const { taskId } = params;
+	const userId = cookies.get('x-user');
+
+	const boardService: BoardService = container.resolve('BoardService');
+
+	const board = await boardService.getBoardByTaskId(taskId);
+
+	if (!board) {
+		return new Response(JSON.stringify({ message: 'Board not found' }), { status: 404 });
+	}
+
+	if (board.userId?.toString() !== userId) {
+		return new Response(JSON.stringify({ message: 'Forbidden' }), { status: 403 });
+	}
+
+	try {
+		await boardService.deleteTask(taskId);
+		return new Response(JSON.stringify({ message: 'Task deleted' }), { status: 200 });
+	} catch (error) {
+		console.log(error);
+		return new Response(JSON.stringify({ message: 'hubo un error inesperado' }), { status: 500 });
+	}
+};

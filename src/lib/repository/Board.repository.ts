@@ -59,4 +59,9 @@ export class BoardWriteRepository {
 			status: task.status
 		});
 	}
+
+	public async deleteTask(taskId: string) {
+		const db = this.dbContext;
+		await db('tasks').where('id', taskId).del();
+	}
 }

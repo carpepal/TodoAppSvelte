@@ -8,14 +8,6 @@
 	let isEditing = $state(false);
 
 	const handleChangeStatus = async () => {
-		tasks.update((prevTasks) => {
-			return prevTasks.map((prevTask) => {
-				if (prevTask.id === task.id) {
-					return task;
-				}
-				return prevTask;
-			});
-		});
 		const result = await fetch(`/api/task/${task.id}`, {
 			method: 'PATCH',
 			headers: {
@@ -23,6 +15,29 @@
 			},
 			body: JSON.stringify(task)
 		});
+		console.log(result);
+		if (result.ok) {
+			tasks.update((prevTasks) => {
+				return prevTasks.map((prevTask) => {
+					if (prevTask.id === task.id) {
+						return task;
+					}
+					return prevTask;
+				});
+			});
+		}
+	};
+
+	const handleDeleteTask = async () => {
+		const result = await fetch(`/api/task/${task.id}`, {
+			method: 'DELETE'
+		});
+		if (result.ok) {
+			tasks.update((prevTasks) => {
+				return prevTasks.filter((prevTask) => prevTask.id !== task.id);
+			});
+			closeModal();
+		}
 	};
 
 	const closeModal = () => {
@@ -57,6 +72,9 @@
 			<p>{task.description}</p>
 		</div>
 	{/if}
+	<button class="absolute bottom-5 right-5 rounded bg-red-500 p-2" onclick={handleDeleteTask}>
+		<TrashCan size="2rem" />
+	</button>
 </Modal>
 
 <style lang="postcss">

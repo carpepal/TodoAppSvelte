@@ -44,4 +44,8 @@ export class BoardService {
 	public async updateTask(taskId: string, task: Task): Promise<void> {
 		await this.boardWriteRepository.updateTask(taskId, task.toDto());
 	}
+
+	public async deleteTask(taskId: string): Promise<void> {
+		await this.boardWriteRepository.deleteTask(taskId);
+	}
 }
